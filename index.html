@@ -307,8 +307,37 @@
 <body class="font-body-md text-body-md">
     <canvas id="shader-canvas"></canvas>
 
+    <!-- Password Lock Screen -->
+    <div id="lock-screen" class="fixed inset-0 z-[200] flex items-center justify-center p-margin-mobile bg-surface">
+        <div class="max-w-sm w-full custom-card p-8 sm:p-10 rounded-[40px] text-center space-y-6">
+            <div class="relative inline-block mx-auto">
+                <div class="absolute inset-0 bg-secondary/20 blur-2xl rounded-full scale-150"></div>
+                <span class="material-symbols-outlined text-secondary text-5xl relative pulse-heart-anim" style="font-variation-settings: 'FILL' 1;">lock_heart</span>
+            </div>
+            <div class="space-y-2">
+                <h1 class="font-headline-sm text-primary">A Little Secret</h1>
+                <p class="text-on-surface-variant text-sm leading-relaxed">This quest is just for you. Enter the secret code to begin. 💕</p>
+            </div>
+            <form id="lock-form" onsubmit="return checkLockPassword(event)" class="space-y-4">
+                <input
+                    id="lock-password-input"
+                    type="password"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="Enter secret code"
+                    class="w-full text-center tracking-widest rounded-2xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-slate-800/50 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary text-lg py-3.5 px-4"
+                />
+                <p id="lock-error" class="text-secondary text-xs font-semibold hidden">That's not quite it — try again 💭</p>
+                <button type="submit" class="sparkle-button w-full py-4 bg-primary text-white rounded-full font-label-md uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl flex items-center justify-center gap-2">
+                    Unlock
+                    <span class="material-symbols-outlined text-sm">favorite_border</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Quest Header -->
-    <header class="fixed top-0 w-full z-40 h-16 flex flex-col justify-between glass-header">
+    <header id="app-header" class="fixed top-0 w-full z-40 h-16 flex flex-col justify-between glass-header hidden">
         <div class="flex justify-between items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-full">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-secondary pulse-heart-anim" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
@@ -331,7 +360,7 @@
         </div>
     </header>
 
-    <main class="w-full pt-16 min-h-screen relative">
+    <main id="app-main" class="w-full pt-16 min-h-screen relative hidden">
         <!-- Level 0: Start -->
         <section class="quest-section active min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-0">
             <div class="text-center space-y-8 max-w-2xl">
@@ -1763,9 +1792,57 @@
                 .replace(/'/g, "&#039;");
         }
 
+        // ---- Password Lock Screen ----
+        const LOCK_PASSWORD = "24092002";
+        const LOCK_SESSION_KEY = "quest_unlocked";
+
+        function unlockApp() {
+            document.getElementById('lock-screen').style.display = 'none';
+            document.getElementById('app-header').classList.remove('hidden');
+            document.getElementById('app-main').classList.remove('hidden');
+            try { sessionStorage.setItem(LOCK_SESSION_KEY, "true"); } catch (e) {}
+            burstHearts(18);
+        }
+
+        function checkLockPassword(e) {
+            e.preventDefault();
+            const input = document.getElementById('lock-password-input');
+            const error = document.getElementById('lock-error');
+            const entered = input.value.trim();
+
+            audioEngine.init();
+
+            if (entered === LOCK_PASSWORD) {
+                audioEngine.playSuccess();
+                error.classList.add('hidden');
+                unlockApp();
+            } else {
+                audioEngine.playFailure();
+                error.classList.remove('hidden');
+                const card = document.querySelector('#lock-screen .custom-card');
+                card.classList.remove('animate-shake');
+                void card.offsetWidth;
+                card.classList.add('animate-shake');
+                input.value = '';
+                input.focus();
+            }
+            return false;
+        }
+
+        // Auto re-unlock within the same browser tab/session so a refresh
+        // doesn't force re-entering the password every time.
+        function checkExistingUnlock() {
+            try {
+                if (sessionStorage.getItem(LOCK_SESSION_KEY) === "true") {
+                    unlockApp();
+                }
+            } catch (e) {}
+        }
+
         window.onload = () => {
             initShader();
             checkURLHash();
+            checkExistingUnlock();
         };
 
         // Listen for back button or manual hash changes
