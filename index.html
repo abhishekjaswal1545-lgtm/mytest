@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html class="light" lang="en" data-theme="rose">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Our Forever Quest</title>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "var(--color-primary)",
+                        "primary-container": "var(--color-primary-container)",
+                        secondary: "var(--color-secondary)",
+                        "secondary-container": "var(--color-secondary-container)",
+                        tertiary: "var(--color-tertiary)",
+                        "tertiary-fixed": "var(--color-tertiary-fixed)",
+                        surface: "var(--color-surface)",
+                        "surface-variant": "var(--color-surface-variant)",
+                        "on-surface": "var(--color-on-surface)",
+                        "on-surface-variant": "var(--color-on-surface-variant)",
+                        background: "var(--color-background)",
+                        outline: "var(--color-outline)",
+                        "surface-container-lowest": "var(--color-surface-lowest)"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1140px",
+                        "unit": "8px"
+                    },
+                    fontFamily: {
+                        "headline-sm": ["Playfair Display"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"]
+                    },
+                    fontSize: {
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            /* Theme 1: Soft Rose */
+            --color-primary: #874f4f;
+            --color-primary-container: #e8a2a2;
+            --color-secondary: #a23a4b;
+            --color-secondary-container: #ff8292;
+            --color-tertiary: #735c00;
+            --color-tertiary-fixed: #ffe088;
+            --color-surface: #fbf9f5;
+            --color-surface-variant: #e4e2de;
+            --color-on-surface: #1b1c1a;
+            --color-on-surface-variant: #524343;
+            --color-background: #fbf9f5;
+            --color-outline: #847373;
+            --color-surface-lowest: #ffffff;
+        }
+
+        [data-theme="sunset"] {
+            /* Theme 2: Sunset Gold */
+            --color-primary: #a15d2a;
+            --color-primary-container: #fcd5b8;
+            --color-secondary: #c94a29;
+            --color-secondary-container: #ffbba6;
+            --color-tertiary: #6b5c00;
+            --color-tertiary-fixed: #ffd859;
+            --color-surface: #fffbf7;
+            --color-surface-variant: #ebded5;
+            --color-on-surface: #261609;
+            --color-on-surface-variant: #695547;
+            --color-background: #fffbf7;
+            --color-outline: #9c8474;
+            --color-surface-lowest: #ffffff;
+        }
+
+        [data-theme="midnight"] {
+            /* Theme 3: Midnight Ocean */
+            --color-primary: #3b82f6;
+            --color-primary-container: #1e3a8a;
+            --color-secondary: #ec4899;
+            --color-secondary-container: #831843;
+            --color-tertiary: #14b8a6;
+            --color-tertiary-fixed: #115e59;
+            --color-surface: #0f172a;
+            --color-surface-variant: #334155;
+            --color-on-surface: #f8fafc;
+            --color-on-surface-variant: #94a3b8;
+            --color-background: #090d16;
+            --color-outline: #475569;
+            --color-surface-lowest: #1e293b;
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-on-surface);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        #shader-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass-header {
+            background: rgba(var(--header-bg-rgb, 251, 249, 245), 0.4);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(var(--header-border-rgb, 228, 226, 222), 0.3);
+        }
+
+        .quest-section {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+        }
+
+        .quest-section.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            position: relative;
+            visibility: visible;
+        }
+
+        .sparkle-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(var(--btn-shadow-rgb, 125,30,49), 0.15);
+        }
+
+        .sparkle-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(255, 255, 255, 0.6) 50%,
+                transparent 55%
+            );
+            transform: rotate(-45deg);
+            transition: none;
+            opacity: 0;
+        }
+
+        .sparkle-button:hover::after {
+            animation: shine 1.2s infinite ease-in-out;
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 60;
+            font-size: 20px;
+            animation: float-up 2.5s ease-out forwards;
+            color: var(--color-primary-container);
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-25vh) translateX(var(--target-x, 20px)) rotate(360deg) scale(0); opacity: 0; }
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .pulse-heart-anim { animation: pulse-heart 1.2s infinite ease-in-out; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, var(--color-secondary) 0%, var(--color-tertiary-fixed) 100%);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 10px rgba(var(--btn-shadow-rgb, 162, 58, 75), 0.3);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .custom-card {
+            background: rgba(var(--card-bg-rgb, 255, 255, 255), 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(var(--card-border-rgb, 255, 255, 255), 0.4);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .custom-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Settings Slide Panel */
+        .settings-drawer {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Custom Scrollbar for Drawer */
+        .drawer-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .drawer-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .drawer-scroll::-webkit-scrollbar-thumb {
+            background: rgba(var(--color-outline-rgb, 132, 115, 115), 0.3);
+            border-radius: 3px;
+        }
+        .drawer-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(var(--color-outline-rgb, 132, 115, 115), 0.5);
+        }
+
+        /* Dodging Proposal Refusal Button */
+        #btn-reject {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md">
+    <canvas id="shader-canvas"></canvas>
+
+    <!-- Quest Header -->
+    <header class="fixed top-0 w-full z-40 h-16 flex flex-col justify-between glass-header">
+        <div class="flex justify-between items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-full">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary pulse-heart-anim" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+                <span class="font-headline-sm text-base md:text-headline-sm text-primary tracking-tight" id="header-title">Quest of the Heart</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Soundtrack controller -->
+                <button id="music-toggle" class="flex items-center gap-1.5 text-secondary bg-white/40 hover:bg-white/60 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-secondary/20 dark:border-slate-700/50 px-3.5 py-1.5 rounded-full transition-all text-xs font-bold" onclick="toggleMusic()">
+                    <span class="material-symbols-outlined text-sm leading-none" id="music-icon">volume_off</span>
+                    <span id="music-text" class="hidden sm:inline">Tap for Music 🎵</span>
+                </button>
+                <!-- Customizer Gear Button -->
+                <button id="settings-toggle" class="w-9 h-9 rounded-full bg-white/40 hover:bg-white/60 dark:bg-slate-800/40 dark:hover:bg-slate-800/60 border border-secondary/20 dark:border-slate-700/50 flex items-center justify-center text-secondary hover:text-primary transition-all shadow-sm" onclick="toggleSettings(true)">
+                    <span class="material-symbols-outlined text-lg leading-none">settings</span>
+                </button>
+            </div>
+        </div>
+        <div class="w-full bg-surface-variant/20 h-1.5 overflow-hidden">
+            <div class="progress-bar" id="quest-progress"></div>
+        </div>
+    </header>
+
+    <main class="w-full pt-16 min-h-screen relative">
+        <!-- Level 0: Start -->
+        <section class="quest-section active min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-0">
+            <div class="text-center space-y-8 max-w-2xl">
+                <div class="level-badge">Prologue</div>
+                <h1 class="font-display-lg-mobile md:font-display-lg text-primary drop-shadow-sm leading-tight" id="main-name-display">To My Forever...</h1>
+                <p class="font-body-lg text-on-surface-variant italic leading-relaxed" id="prologue-text-display">"In your heart, I have found my home, and in your arms, I have found my peace."</p>
+                <div class="pt-8">
+                    <button class="sparkle-button px-10 py-5 bg-primary text-white rounded-full font-label-md uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl flex items-center gap-3 mx-auto" onclick="nextStep(1)">
+                        Unlock Our Story
+                        <span class="material-symbols-outlined text-sm">favorite_border</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 1: The Spark -->
+        <section class="quest-section min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-1">
+            <div class="max-w-md w-full custom-card p-8 rounded-[40px] text-center space-y-6">
+                <div class="level-badge">Level 1: The Spark</div>
+                <span class="font-label-md text-tertiary uppercase tracking-widest block" id="l1-date-display">Summer 2021</span>
+                <h2 class="font-headline-sm text-on-surface" id="l1-title-display">Where it all began</h2>
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-4 border-white/60 bg-white/20">
+                    <img class="w-full h-full object-cover" id="l1-img-display" src="assets/cafe_first_meet.png" alt="Our first encounter"/>
+                </div>
+                <p class="text-on-surface-variant italic text-sm" id="l1-desc-display">"The day our eyes first met across that crowded cafe..."</p>
+                <div class="flex justify-center pt-4">
+                    <button class="w-14 h-14 bg-primary-container/80 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 active:scale-90 transition-all pulse-heart-anim" onclick="nextStep(2)">
+                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 2: Memory Quest -->
+        <section class="quest-section min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-2">
+            <div class="max-w-md w-full text-center space-y-8">
+                <div class="level-badge">Level 2: Memory Unlock</div>
+                <h3 class="font-headline-sm text-primary">Quest Check!</h3>
+                <p class="font-body-lg text-on-surface-variant" id="quiz-question-display">Do you remember the song playing during our first road trip?</p>
+                
+                <div class="bg-white/30 backdrop-blur-xl border border-white/40 p-6 rounded-[30px] shadow-xl space-y-4" id="quiz-card">
+                    <!-- Options container -->
+                    <div class="grid grid-cols-1 gap-4" id="quiz-options-container">
+                        <!-- Dynamically filled options -->
+                    </div>
+                    <!-- Wrong feedback hint -->
+                    <p class="text-secondary font-semibold text-sm hidden" id="quiz-hint-display"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 3: Shared Horizons -->
+        <section class="quest-section min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-3">
+            <div class="max-w-md w-full custom-card p-8 rounded-[40px] text-center space-y-6">
+                <div class="level-badge">Level 3: Shared Horizons</div>
+                <span class="font-label-md text-tertiary uppercase tracking-widest block" id="l3-date-display">Winter 2022</span>
+                <h2 class="font-headline-sm text-on-surface" id="l3-title-display">Our first adventure</h2>
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-4 border-white/60 bg-white/20">
+                    <img class="w-full h-full object-cover" id="l3-img-display" src="assets/mountain_sunrise.png" alt="Our adventure"/>
+                </div>
+                <p class="text-on-surface-variant italic text-sm" id="l3-desc-display">"Chasing sunrises in the mountains..."</p>
+                <div class="flex justify-center pt-4">
+                    <button class="w-14 h-14 bg-secondary-container/80 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 active:scale-90 transition-all pulse-heart-anim" onclick="nextStep(4)">
+                        <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Level 4: The Daily Magic -->
+        <section class="quest-section min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-4">
+            <div class="max-w-md w-full custom-card p-8 rounded-[40px] text-center space-y-6">
+                <div class="level-badge">Level 4: The Daily Magic</div>
+                <span class="font-label-md text-tertiary uppercase tracking-widest block">Every Single Day</span>
+                <h2 class="font-headline-sm text-on-surface" id="l4-title-display">Every day since</h2>
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-lg border-4 border-white/60 bg-white/20">
+                    <img class="w-full h-full object-cover" id="l4-img-display" src="assets/daily_magic.png" alt="Holding hands"/>
+                </div>
+                <p class="text-on-surface-variant italic text-sm" id="l4-desc-display">"The quiet moments, the laughter, and the way you hold my hand."</p>
+                <div class="flex justify-center pt-4">
+                    <button class="w-14 h-14 bg-primary/80 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 active:scale-90 transition-all pulse-heart-anim" onclick="nextStep(5)">
+                        <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Boss: The Proposal -->
+        <section class="quest-section min-h-[calc(100vh-64px)] flex items-center justify-center p-margin-mobile" id="section-5">
+            <div class="max-w-2xl w-full text-center space-y-10 py-12">
+                <div class="relative inline-block">
+                    <div class="absolute inset-0 bg-secondary/20 blur-3xl rounded-full scale-150"></div>
+                    <span class="material-symbols-outlined text-secondary text-8xl pulse-heart-anim relative" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="level-badge">Achievement: True Love Found</div>
+                    <h2 class="font-display-lg text-primary text-4xl md:text-5xl" id="proposal-heading">Will You Marry Me?</h2>
+                </div>
+                <p class="font-body-lg text-on-surface-variant leading-relaxed max-w-lg mx-auto" id="prop-text-display">
+                    I've known for a long time that my life began the moment you stepped into it. 
+                    I promise to love you, cherish you, and be your partner through every season of our quest.
+                </p>
+                <div class="flex flex-col items-center gap-6 relative select-none">
+                    <!-- Yes, Accept Button -->
+                    <button class="sparkle-button px-16 py-6 bg-secondary text-white rounded-full font-label-md uppercase tracking-[0.2em] shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3" onclick="celebrate()">
+                        <span id="prop-yes-display">Yes, Forever</span>
+                        <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                    </button>
+                    <!-- Dodging Refusal Button -->
+                    <button id="btn-reject" class="px-8 py-3 bg-transparent text-outline font-label-md text-label-md opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2" onmouseenter="dodgeButton(event)" onmousemove="dodgeButton(event)" onclick="dodgeButton(event)">
+                        <span class="material-symbols-outlined text-sm">favorite_border</span>
+                        <span id="prop-no-display">I need more lattes first</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Overlay -->
+    <div class="fixed inset-0 z-[100] bg-surface/95 backdrop-blur-3xl hidden flex flex-col items-center justify-center text-center p-8 transition-opacity duration-1000 opacity-0" id="celebration-overlay">
+        <h2 class="font-display-lg text-primary mb-4 text-5xl">Level Up: Eternal Love!</h2>
+        <p class="font-headline-sm text-on-surface mb-8 text-2xl" id="proposal-accepted-message">Together, always.</p>
+        <span class="material-symbols-outlined text-secondary text-8xl animate-bounce pulse-heart-anim" style="font-variation-settings: 'FILL' 1;">favorite</span>
+        <canvas class="absolute inset-0 pointer-events-none" id="confetti-canvas"></canvas>
+    </div>
+
+    <!-- Customizer Drawer Settings Panel -->
+    <div id="settings-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white/80 dark:bg-slate-900/90 backdrop-blur-2xl border-l border-white/20 dark:border-slate-800 shadow-2xl z-50 transform translate-x-full settings-drawer flex flex-col">
+        <!-- Drawer Header -->
+        <div class="p-6 border-b border-black/10 dark:border-white/10 flex justify-between items-center bg-primary/10">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">design_services</span>
+                <h3 class="font-label-md text-primary dark:text-primary-container text-lg font-bold uppercase tracking-wider">Customize Your Quest</h3>
+            </div>
+            <button onclick="toggleSettings(false)" class="w-8 h-8 rounded-full hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center text-on-surface transition-all">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+
+        <!-- Drawer Content (Form) -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6 drawer-scroll font-label-md text-sm text-on-surface-variant">
+            <!-- Theme Selection -->
+            <div class="space-y-2.5">
+                <label class="block font-bold text-xs uppercase tracking-wider text-primary">Choose Palette Theme</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setTheme('rose')" class="p-3 rounded-xl border border-black/10 dark:border-white/10 hover:border-primary flex flex-col items-center gap-1.5 transition-all text-xs font-semibold bg-rose-50 dark:bg-rose-950/20 text-rose-800 dark:text-rose-300">
+                        <span class="w-5 h-5 rounded-full bg-[#a23a4b] block border border-white/30"></span>
+                        Soft Rose
+                    </button>
+                    <button onclick="setTheme('sunset')" class="p-3 rounded-xl border border-black/10 dark:border-white/10 hover:border-primary flex flex-col items-center gap-1.5 transition-all text-xs font-semibold bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300">
+                        <span class="w-5 h-5 rounded-full bg-[#c94a29] block border border-white/30"></span>
+                        Sunset Gold
+                    </button>
+                    <button onclick="setTheme('midnight')" class="p-3 rounded-xl border border-black/10 dark:border-white/10 hover:border-primary flex flex-col items-center gap-1.5 transition-all text-xs font-semibold bg-slate-800 text-slate-100">
+                        <span class="w-5 h-5 rounded-full bg-[#3b82f6] block border border-white/30"></span>
+                        Midnight
+                    </button>
+                </div>
+            </div>
+
+            <hr class="border-black/5 dark:border-white/5" />
+
+            <!-- General Profile -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Prologue & Names</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Partner / Header Title</label>
+                        <input type="text" id="config-name" class="w-full rounded-xl border-black/10 dark:border-white/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-sm py-2 px-3" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Prologue Romantic Quote</label>
+                        <textarea id="config-prologue" rows="2" class="w-full rounded-xl border-black/10 dark:border-white/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-sm py-2 px-3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Target Notification Email</label>
+                        <input type="email" id="config-email" placeholder="yourname@example.com" class="w-full rounded-xl border-black/10 dark:border-white/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-sm py-2 px-3" />
+                        <p class="text-[10px] text-on-surface-variant/80 dark:text-slate-400/80 mt-1 leading-normal">Enter your email to receive an alert when they accept the proposal. (Requires clicking a confirmation link in the first email received to enable FormSubmit).</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-black/5 dark:border-white/5" />
+
+            <!-- Level 1 -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Level 1: The Spark</h4>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Date/Time Label</label>
+                            <input type="text" id="config-l1-date" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Level Heading</label>
+                            <input type="text" id="config-l1-title" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Story Text</label>
+                        <textarea id="config-l1-desc" rows="2" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Image Asset</label>
+                        <select id="config-l1-img-select" onchange="toggleCustomImage('l1')" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3 mb-2">
+                            <option value="default">Default Cafe Meeting (Illustration)</option>
+                            <option value="custom">Custom Image Link (URL)</option>
+                        </select>
+                        <input type="text" id="config-l1-img-url" placeholder="https://..." class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3 hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-black/5 dark:border-white/5" />
+
+            <!-- Level 2 (Quiz) -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Level 2: The Memory Quiz</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Quiz Question</label>
+                        <input type="text" id="config-quiz-q" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-medium">Multiple Choice Options</label>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold w-4">1.</span>
+                            <input type="text" id="config-quiz-opt0" class="flex-1 rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-1.5 px-3" />
+                            <input type="radio" name="correct-ans" value="0" id="ans0" class="text-primary focus:ring-primary" checked />
+                            <label for="ans0" class="text-[10px] text-primary">Correct</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold w-4">2.</span>
+                            <input type="text" id="config-quiz-opt1" class="flex-1 rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-1.5 px-3" />
+                            <input type="radio" name="correct-ans" value="1" id="ans1" class="text-primary focus:ring-primary" />
+                            <label for="ans1" class="text-[10px] text-primary">Correct</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold w-4">3.</span>
+                            <input type="text" id="config-quiz-opt2" class="flex-1 rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-1.5 px-3" />
+                            <input type="radio" name="correct-ans" value="2" id="ans2" class="text-primary focus:ring-primary" />
+                            <label for="ans2" class="text-[10px] text-primary">Correct</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Playful Wrong Hint Feedback</label>
+                        <input type="text" id="config-quiz-hint" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-black/5 dark:border-white/5" />
+
+            <!-- Level 3 -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Level 3: Shared Horizons</h4>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Date/Time Label</label>
+                            <input type="text" id="config-l3-date" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Level Heading</label>
+                            <input type="text" id="config-l3-title" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Story Text</label>
+                        <textarea id="config-l3-desc" rows="2" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Image Asset</label>
+                        <select id="config-l3-img-select" onchange="toggleCustomImage('l3')" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3 mb-2">
+                            <option value="default">Default Mountain Sunrise (Illustration)</option>
+                            <option value="custom">Custom Image Link (URL)</option>
+                        </select>
+                        <input type="text" id="config-l3-img-url" placeholder="https://..." class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3 hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-black/5 dark:border-white/5" />
+
+            <!-- Level 4 -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Level 4: Daily Magic</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Level Heading</label>
+                        <input type="text" id="config-l4-title" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Story Text</label>
+                        <textarea id="config-l4-desc" rows="2" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Image Asset</label>
+                        <select id="config-l4-img-select" onchange="toggleCustomImage('l4')" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3 mb-2">
+                            <option value="default">Default Daily Magic (Illustration)</option>
+                            <option value="custom">Custom Image Link (URL)</option>
+                        </select>
+                        <input type="text" id="config-l4-img-url" placeholder="https://..." class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3 hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-black/5 dark:border-white/5" />
+
+            <!-- Level 5 (Proposal) -->
+            <div class="space-y-4">
+                <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Level 5: Proposal Details</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Will You Marry Me? Heading</label>
+                        <input type="text" id="config-prop-heading" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium mb-1">Proposal Letter Text</label>
+                        <textarea id="config-prop-text" rows="3" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Yes Button Text</label>
+                            <input type="text" id="config-prop-yes" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Refusal Button Text</label>
+                            <input type="text" id="config-prop-no" class="w-full rounded-xl border-black/10 bg-white/40 dark:bg-slate-800/40 text-on-surface focus:ring-primary focus:border-primary text-xs py-2 px-3" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drawer Footer (Buttons) -->
+        <div class="p-6 border-t border-black/10 dark:border-white/10 bg-slate-50 dark:bg-slate-900/50 flex flex-col gap-2.5">
+            <button onclick="previewConfig()" class="w-full py-3 bg-primary text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-secondary transition-all shadow-md flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-sm">visibility</span>
+                Preview Changes
+            </button>
+            <button onclick="copyShareableLink()" id="btn-share" class="w-full py-3 bg-secondary text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-primary transition-all shadow-md flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-sm" id="btn-share-icon">link</span>
+                <span id="btn-share-text">Copy Shareable Link</span>
+            </button>
+            <button onclick="resetConfig()" class="w-full py-2 bg-transparent text-outline dark:text-slate-400 text-[10px] font-bold uppercase tracking-widest hover:text-secondary hover:underline transition-all">
+                Reset to Default
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay backdrop for settings drawer -->
+    <div id="drawer-backdrop" class="fixed inset-0 bg-black/35 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0" onclick="toggleSettings(false)"></div>
+
+    <script>
+        // Shader Implementation - Dynamic flowing gradient matching themes
+        const canvas = document.getElementById('shader-canvas');
+        const gl = canvas.getContext('webgl');
+
+        let shaderProgram;
+        let timeLoc, resLoc, mouseLoc;
+        let color1Loc, color2Loc, color3Loc;
+        let mouseX = 0.5, mouseY = 0.5;
+        let targetMouseX = 0.5, targetMouseY = 0.5;
+
+        // Colors passed to the shader dynamically (RGB floats)
+        let themeColors = {
+            rose: {
+                c1: [0.98, 0.95, 0.94], // Light rose surface
+                c2: [0.95, 0.85, 0.84], // Soft pink
+                c3: [0.91, 0.64, 0.64]  // Accent
+            },
+            sunset: {
+                c1: [1.0, 0.98, 0.96],  // Very light amber
+                c2: [0.98, 0.90, 0.83],  // Warm gold
+                c3: [0.95, 0.74, 0.58]   // Deep orange/gold accent
+            },
+            midnight: {
+                c1: [0.05, 0.08, 0.16],  // Dark deep slate
+                c2: [0.10, 0.15, 0.28],  // Deep ocean indigo
+                c3: [0.05, 0.25, 0.40]   // Neon cyan/blue swirl
+            }
+        };
+
+        let currentActiveTheme = 'rose';
+
+        function initShader() {
+            if (!gl) return;
+
+            const vsSource = `
+                attribute vec2 position;
+                varying vec2 v_texCoord;
+                void main() {
+                    v_texCoord = position * 0.5 + 0.5;
+                    gl_Position = vec4(position, 0.0, 1.0);
+                }
+            `;
+            const fsSource = `
+                precision highp float;
+                uniform float u_time;
+                uniform vec2 u_resolution;
+                uniform vec2 u_mouse;
+                uniform vec3 u_color1;
+                uniform vec3 u_color2;
+                uniform vec3 u_color3;
+                varying vec2 v_texCoord;
+                void main() {
+                    vec2 uv = v_texCoord;
+                    
+                    float t = u_time * 0.15;
+                    
+                    // Wave distortion around mouse position
+                    float dist = distance(uv, u_mouse);
+                    float ripple = sin(dist * 18.0 - u_time * 1.5) * exp(-dist * 3.5) * 0.18;
+                    
+                    float noise = sin(uv.x * 2.5 + t + ripple) * cos(uv.y * 3.0 - t * 0.6 + ripple);
+                    float wave = sin(uv.x * 4.0 + uv.y * 2.0 + t * 0.8 + noise + ripple);
+                    
+                    vec3 finalColor = mix(u_color1, u_color2, wave * 0.5 + 0.5);
+                    finalColor = mix(finalColor, u_color3, noise * 0.35);
+                    
+                    // Subtle sparkles
+                    float sparkle = pow(abs(sin(uv.x * 35.0 + t) * cos(uv.y * 35.0 - t)), 28.0);
+                    finalColor += sparkle * 0.04;
+                    
+                    gl_FragColor = vec4(finalColor, 1.0);
+                }
+            `;
+
+            shaderProgram = createProgram(gl, vsSource, fsSource);
+            const posBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+
+            const posLoc = gl.getAttribLocation(shaderProgram, 'position');
+            timeLoc = gl.getUniformLocation(shaderProgram, 'u_time');
+            resLoc = gl.getUniformLocation(shaderProgram, 'u_resolution');
+            mouseLoc = gl.getUniformLocation(shaderProgram, 'u_mouse');
+            color1Loc = gl.getUniformLocation(shaderProgram, 'u_color1');
+            color2Loc = gl.getUniformLocation(shaderProgram, 'u_color2');
+            color3Loc = gl.getUniformLocation(shaderProgram, 'u_color3');
+
+            gl.enableVertexAttribArray(posLoc);
+            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+            function render(time) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+                gl.useProgram(shaderProgram);
+
+                // Smooth mouse interpolation
+                mouseX += (targetMouseX - mouseX) * 0.08;
+                mouseY += (targetMouseY - mouseY) * 0.08;
+
+                gl.uniform1f(timeLoc, time * 0.001);
+                gl.uniform2f(resLoc, canvas.width, canvas.height);
+                gl.uniform2f(mouseLoc, mouseX, mouseY);
+
+                // Set theme colors
+                const colors = themeColors[currentActiveTheme] || themeColors.rose;
+                gl.uniform3fv(color1Loc, colors.c1);
+                gl.uniform3fv(color2Loc, colors.c2);
+                gl.uniform3fv(color3Loc, colors.c3);
+
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+        }
+
+        function createProgram(gl, vs, fs) {
+            const p = gl.createProgram();
+            const v = gl.createShader(gl.VERTEX_SHADER);
+            const f = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(v, vs); gl.compileShader(v);
+            gl.shaderSource(f, fs); gl.compileShader(f);
+            gl.attachShader(p, v); gl.attachShader(p, f);
+            gl.linkProgram(p); return p;
+        }
+
+        // Keep track of cursor/touch position for WebGL
+        document.addEventListener('mousemove', (e) => {
+            targetMouseX = e.clientX / window.innerWidth;
+            targetMouseY = 1.0 - (e.clientY / window.innerHeight); // Flip Y for WebGL
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                targetMouseX = e.touches[0].clientX / window.innerWidth;
+                targetMouseY = 1.0 - (e.touches[0].clientY / window.innerHeight);
+            }
+        });
+
+
+        // Web Audio Synthesizer Class
+        class AudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.isMuted = true;
+                this.synthInterval = null;
+                this.musicGain = null;
+                this.sfxGain = null;
+                this.currentChordIndex = 0;
+                
+                this.chords = [
+                    [130.81, 196.00, 246.94, 329.63], // Cmaj7: C3, G3, B3, E4
+                    [174.61, 220.00, 261.63, 329.63], // Fmaj7: F3, A3, C4, E4
+                    [220.00, 261.63, 329.63, 392.00], // Am7: A3, C4, E4, G4
+                    [196.00, 246.94, 293.66, 329.63]  // G6: G3, B3, D4, E4
+                ];
+            }
+            
+            init() {
+                if (this.ctx) return;
+                
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                this.ctx = new AudioContextClass();
+                
+                // Pad gain (subtle background loop)
+                this.musicGain = this.ctx.createGain();
+                this.musicGain.gain.value = 0.15;
+                this.musicGain.connect(this.ctx.destination);
+                
+                // Sound Effects gain (clicks, success, fail)
+                this.sfxGain = this.ctx.createGain();
+                this.sfxGain.gain.value = 0.35;
+                this.sfxGain.connect(this.ctx.destination);
+                
+                this.isMuted = false;
+                
+                // Start chord pad loops
+                this.playNextChord();
+                this.synthInterval = setInterval(() => {
+                    if (!this.isMuted) this.playNextChord();
+                }, 6000);
+            }
+            
+            playNextChord() {
+                if (!this.ctx || this.isMuted) return;
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+                
+                const chord = this.chords[this.currentChordIndex];
+                const now = this.ctx.currentTime;
+                const duration = 6.0;
+                
+                chord.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    const filter = this.ctx.createBiquadFilter();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+                    
+                    // Detune notes slightly to sound rich/chorus-y
+                    if (idx > 0) {
+                        osc.detune.setValueAtTime((Math.random() - 0.5) * 10, now);
+                    }
+                    
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(500, now);
+                    filter.frequency.exponentialRampToValueAtTime(300, now + duration);
+                    
+                    // Volume Envelope: soft fade in and out
+                    gainNode.gain.setValueAtTime(0, now);
+                    gainNode.gain.linearRampToValueAtTime(0.06, now + 1.8);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration - 0.1);
+                    
+                    osc.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(this.musicGain);
+                    
+                    osc.start(now);
+                    osc.stop(now + duration);
+                });
+                
+                this.currentChordIndex = (this.currentChordIndex + 1) % this.chords.length;
+            }
+            
+            mute() {
+                this.isMuted = true;
+                if (this.ctx && this.ctx.state === 'running') {
+                    this.musicGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.15);
+                }
+            }
+            
+            unmute() {
+                this.init();
+                this.isMuted = false;
+                if (this.ctx) {
+                    this.ctx.resume();
+                    this.musicGain.gain.setTargetAtTime(0.15, this.ctx.currentTime, 0.15);
+                }
+            }
+            
+            playClick() {
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gainNode = this.ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+                
+                gainNode.gain.setValueAtTime(0.15, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                
+                osc.connect(gainNode);
+                gainNode.connect(this.sfxGain);
+                
+                osc.start(now);
+                osc.stop(now + 0.1);
+            }
+            
+            playSuccess() {
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                // Bright, sweet ascending major third / fifth arpeggio
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 -> E5 -> G5 -> C6
+                
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    const start = now + (idx * 0.08);
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, start);
+                    
+                    gainNode.gain.setValueAtTime(0, start);
+                    gainNode.gain.linearRampToValueAtTime(0.12, start + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, start + 0.22);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(this.sfxGain);
+                    
+                    osc.start(start);
+                    osc.stop(start + 0.25);
+                });
+            }
+            
+            playFailure() {
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                // Soft downward minor second interval (chagrin chord)
+                const notes = [329.63, 293.66]; // E4 -> D4
+                
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    const start = now + (idx * 0.14);
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, start);
+                    
+                    gainNode.gain.setValueAtTime(0.15, start);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, start + 0.3);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(this.sfxGain);
+                    
+                    osc.start(start);
+                    osc.stop(start + 0.35);
+                });
+            }
+            
+            playUnlock() {
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                // Magical wind-chime glitter runs
+                for (let i = 0; i < 7; i++) {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    const freq = 700 + (i * 110) + (Math.random() - 0.5) * 40;
+                    const start = now + (i * 0.04);
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, start);
+                    
+                    gainNode.gain.setValueAtTime(0, start);
+                    gainNode.gain.linearRampToValueAtTime(0.1, start + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, start + 0.25);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(this.sfxGain);
+                    
+                    osc.start(start);
+                    osc.stop(start + 0.3);
+                }
+            }
+            
+            playCelebrationFanfare() {
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                
+                // Increase music volume for celebration
+                this.musicGain.gain.setValueAtTime(0.2, now);
+                
+                // High rising sparkling arpeggios
+                const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00];
+                
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    const delay = idx * 0.055;
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + delay);
+                    
+                    gainNode.gain.setValueAtTime(0, now + delay);
+                    gainNode.gain.linearRampToValueAtTime(0.12, now + delay + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.5);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(this.sfxGain);
+                    
+                    osc.start(now + delay);
+                    osc.stop(now + delay + 0.6);
+                });
+                
+                // Complete warm celebratory major block chord
+                const chord = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+                chord.forEach(freq => {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    const filter = this.ctx.createBiquadFilter();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + 0.5);
+                    
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(800, now + 0.5);
+                    
+                    gainNode.gain.setValueAtTime(0, now + 0.5);
+                    gainNode.gain.linearRampToValueAtTime(0.08, now + 0.7);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+                    
+                    osc.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(this.sfxGain);
+                    
+                    osc.start(now + 0.5);
+                    osc.stop(now + 2.5);
+                });
+            }
+        }
+
+        const audioEngine = new AudioEngine();
+
+        function toggleMusic() {
+            const toggleBtn = document.getElementById('music-toggle');
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+            
+            if (audioEngine.isMuted) {
+                audioEngine.unmute();
+                icon.innerText = 'volume_up';
+                icon.classList.add('pulse-heart-anim');
+                text.innerText = 'Playing';
+                audioEngine.playClick();
+            } else {
+                audioEngine.mute();
+                icon.innerText = 'volume_off';
+                icon.classList.remove('pulse-heart-anim');
+                text.innerText = 'Muted';
+            }
+        }
+
+
+        // Quest Logic Configuration System
+        const DEFAULT_CONFIG = {
+            theme: 'rose',
+            name: 'To My Forever...',
+            prologue_text: '"In your heart, I have found my home, and in your arms, I have found my peace."',
+            notification_email: '',
+            
+            l1_date: 'Summer 2021',
+            l1_title: 'Where it all began',
+            l1_desc: '"The day our eyes first met across that crowded cafe..."',
+            l1_img_type: 'default',
+            l1_img_url: 'assets/cafe_first_meet.png',
+            
+            quiz_q: 'Do you remember the song playing during our first road trip?',
+            quiz_opts: [
+                'Our Song',
+                'That one jazz tune',
+                'Just the sound of laughter'
+            ],
+            quiz_ans: 0,
+            quiz_hint: 'Try again! It\'s the tune we always sing along to at the top of our lungs! 💖',
+            
+            l3_date: 'Winter 2022',
+            l3_title: 'Our first adventure',
+            l3_desc: '"Chasing sunrises in the mountains..."',
+            l3_img_type: 'default',
+            l3_img_url: 'assets/mountain_sunrise.png',
+            
+            l4_title: 'Every day since',
+            l4_desc: '"The quiet moments, the laughter, and the way you hold my hand."',
+            l4_img_type: 'default',
+            l4_img_url: 'assets/daily_magic.png',
+            
+            prop_heading: 'Will You Marry Me?',
+            prop_text: 'I\'ve known for a long time that my life began the moment you stepped into it. I promise to love you, cherish you, and be your partner through every season of our quest.',
+            prop_yes: 'Yes, Forever',
+            prop_no: 'I need more lattes first'
+        };
+
+        let currentConfig = { ...DEFAULT_CONFIG };
+
+        // Quest Step State Machine
+        let currentStep = 0;
+        const totalSteps = 5;
+
+        function nextStep(step) {
+            audioEngine.init(); // Auto unlock audio ctx on interaction
+            
+            const currentEl = document.getElementById(`section-${currentStep}`);
+            const nextEl = document.getElementById(`section-${step}`);
+            
+            currentStep = step;
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('quest-progress').style.width = `${progress}%`;
+
+            if (currentEl) {
+                currentEl.classList.remove('active');
+            }
+            
+            audioEngine.playUnlock();
+
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                nextEl.classList.add('active');
+                burstHearts(14);
+            }, 300);
+        }
+
+        // Heart particles
+        function burstHearts(count) {
+            for (let i = 0; i < count; i++) {
+                createHeart(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+            }
+        }
+
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            const hearts = ['❤️', '💖', '✨', '💕', '🌸', '🌹', '💑'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.className = 'heart-particle';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            
+            // Random sway movement X
+            const targetX = (Math.random() - 0.5) * 150;
+            heart.style.setProperty('--target-x', targetX + 'px');
+            
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2500);
+        }
+
+        // Mouse-triggered cursor hearts
+        let lastX = 0;
+        let lastY = 0;
+        document.addEventListener('mousemove', (e) => {
+            const dist = Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2));
+            if (dist > 80) {
+                createHeart(e.clientX, e.clientY);
+                lastX = e.clientX;
+                lastY = e.clientY;
+            }
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            createHeart(touch.clientX, touch.clientY);
+        });
+
+
+        // Quiz Verification Logic
+        function buildQuiz() {
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+            
+            currentConfig.quiz_opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full py-4.5 bg-white/50 dark:bg-slate-800/40 hover:bg-primary/10 hover:border-primary/50 transition-all rounded-3xl border border-white/60 dark:border-slate-700/60 font-label-md flex items-center justify-center gap-3 text-on-surface font-semibold';
+                btn.innerHTML = `<span class="material-symbols-outlined text-primary text-lg">favorite_border</span> ${escapeHtml(opt)}`;
+                btn.onclick = () => checkQuizAnswer(idx);
+                container.appendChild(btn);
+            });
+            
+            document.getElementById('quiz-hint-display').classList.add('hidden');
+        }
+
+        function checkQuizAnswer(index) {
+            const card = document.getElementById('quiz-card');
+            const hintDisplay = document.getElementById('quiz-hint-display');
+            
+            if (index === parseInt(currentConfig.quiz_ans)) {
+                audioEngine.playSuccess();
+                hintDisplay.classList.add('hidden');
+                
+                // Play check effect on clicked button
+                const btn = document.getElementById('quiz-options-container').children[index];
+                btn.classList.add('bg-green-500/20', 'border-green-500');
+                btn.querySelector('.material-symbols-outlined').innerText = 'check';
+                btn.querySelector('.material-symbols-outlined').style.color = '#22c55e';
+                
+                setTimeout(() => {
+                    nextStep(3);
+                }, 800);
+            } else {
+                audioEngine.playFailure();
+                card.classList.remove('animate-shake');
+                void card.offsetWidth; // Trigger reflow for animation restart
+                card.classList.add('animate-shake');
+                
+                hintDisplay.innerText = currentConfig.quiz_hint;
+                hintDisplay.classList.remove('hidden');
+            }
+        }
+
+
+        // Playful Dodging proposal button
+        let dodgeCount = 0;
+        function dodgeButton(e) {
+            audioEngine.init();
+            const btn = document.getElementById('btn-reject');
+            
+            // Generate offset bounding box
+            const margin = 100;
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            
+            // Random translations within reasonable bounds
+            let randomX = (Math.random() - 0.5) * 350;
+            let randomY = (Math.random() - 0.5) * 200;
+            
+            // Prevent rejection button from flying off screen
+            const rect = btn.getBoundingClientRect();
+            if (rect.left + randomX < margin) randomX = margin - rect.left;
+            if (rect.right + randomX > containerWidth - margin) randomX = containerWidth - margin - rect.right;
+            if (rect.top + randomY < margin) randomY = margin - rect.top;
+            if (rect.bottom + randomY > containerHeight - margin) randomY = containerHeight - margin - rect.bottom;
+            
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            dodgeCount++;
+            if (dodgeCount % 3 === 0) {
+                // Quick heart pop at button
+                createHeart(rect.left + rect.width/2, rect.top + rect.height/2);
+            }
+            
+            // Stop button default submit/clicks
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+
+
+        // Proposal Accepted Celebration
+        function celebrate() {
+            const overlay = document.getElementById('celebration-overlay');
+            
+            // Set music state
+            audioEngine.playCelebrationFanfare();
+            
+            // Send email notification if configured
+            if (currentConfig.notification_email) {
+                sendEmailNotification();
+            }
+            
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                startConfetti();
+            }, 10);
+        }
+
+        function sendEmailNotification() {
+            const email = currentConfig.notification_email;
+            if (!email) return;
+
+            const payload = {
+                _subject: `💖 Proposal Accepted: ${currentConfig.name}`,
+                message: `Congratulations! Your partner completed the Quest of the Heart and clicked "${currentConfig.prop_yes}"! 💍🥂`,
+                _honey: "", // Honeypot field for spam prevention
+                _template: "box"
+            };
+
+            fetch(`https://formsubmit.co/ajax/${email}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Email notification sent successfully:", data);
+            })
+            .catch(err => {
+                console.error("Failed to send email notification:", err);
+            });
+        }
+
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const particles = [];
+            const colors = ['#874f4f', '#a23a4b', '#ff8292', '#ffe088', '#e8a2a2', '#ff5c8a', '#ff99b6'];
+            
+            for (let i = 0; i < 220; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 3.5 + 2,
+                    angle: Math.random() * 6.28,
+                    rotationSpeed: (Math.random() - 0.5) * 0.05
+                });
+            }
+            
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    // Draw little square / diamond confetti
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.angle);
+                    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                    ctx.restore();
+                    
+                    p.y += p.speed;
+                    p.x += Math.sin(p.angle * 0.5) * 1.2;
+                    p.angle += p.rotationSpeed;
+                    
+                    if (p.y > canvas.height) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+
+        // Customizer Drawer settings toggling
+        function toggleSettings(open) {
+            audioEngine.playClick();
+            const drawer = document.getElementById('settings-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            
+            if (open) {
+                // Populate forms before opening
+                loadFormFromConfig();
+                
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.style.opacity = '1';
+                }, 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                backdrop.style.opacity = '0';
+                setTimeout(() => {
+                    backdrop.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function toggleCustomImage(level) {
+            const select = document.getElementById(`config-${level}-img-select`);
+            const input = document.getElementById(`config-${level}-img-url`);
+            if (select.value === 'custom') {
+                input.classList.remove('hidden');
+            } else {
+                input.classList.add('hidden');
+            }
+        }
+
+        // Apply visual colors directly inside UI based on selected theme
+        function setTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            currentActiveTheme = themeName;
+            
+            // Adjust body color attributes for WebGL
+            if (themeName === 'midnight') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            audioEngine.playClick();
+        }
+
+        // Configuration mapping: config -> DOM
+        function applyConfigToDOM() {
+            // Apply text
+            document.getElementById('header-title').innerText = currentConfig.name;
+            document.getElementById('main-name-display').innerText = currentConfig.name;
+            document.getElementById('prologue-text-display').innerText = currentConfig.prologue_text;
+            
+            document.getElementById('l1-date-display').innerText = currentConfig.l1_date;
+            document.getElementById('l1-title-display').innerText = currentConfig.l1_title;
+            document.getElementById('l1-desc-display').innerText = currentConfig.l1_desc;
+            
+            document.getElementById('quiz-question-display').innerText = currentConfig.quiz_q;
+            
+            document.getElementById('l3-date-display').innerText = currentConfig.l3_date;
+            document.getElementById('l3-title-display').innerText = currentConfig.l3_title;
+            document.getElementById('l3-desc-display').innerText = currentConfig.l3_desc;
+            
+            document.getElementById('l4-title-display').innerText = currentConfig.l4_title;
+            document.getElementById('l4-desc-display').innerText = currentConfig.l4_desc;
+            
+            document.getElementById('proposal-heading').innerText = currentConfig.prop_heading;
+            document.getElementById('prop-text-display').innerText = currentConfig.prop_text;
+            document.getElementById('prop-yes-display').innerText = currentConfig.prop_yes;
+            document.getElementById('prop-no-display').innerText = currentConfig.prop_no;
+            
+            // Set Images
+            setImageSrc('l1');
+            setImageSrc('l3');
+            setImageSrc('l4');
+            
+            // Set Theme
+            setTheme(currentConfig.theme);
+            
+            // Rebuild Quiz buttons
+            buildQuiz();
+        }
+
+        function setImageSrc(level) {
+            const imgEl = document.getElementById(`${level}-img-display`);
+            if (currentConfig[`${level}_img_type`] === 'custom' && currentConfig[`${level}_img_url`]) {
+                imgEl.src = currentConfig[`${level}_img_url`];
+            } else {
+                // Fallbacks to default local assets
+                if (level === 'l1') imgEl.src = 'assets/cafe_first_meet.png';
+                if (level === 'l3') imgEl.src = 'assets/mountain_sunrise.png';
+                if (level === 'l4') imgEl.src = 'assets/daily_magic.png';
+            }
+        }
+
+        // Configuration mapping: DOM form fields -> config
+        function loadFormFromConfig() {
+            document.getElementById('config-name').value = currentConfig.name;
+            document.getElementById('config-prologue').value = currentConfig.prologue_text;
+            document.getElementById('config-email').value = currentConfig.notification_email || '';
+            
+            document.getElementById('config-l1-date').value = currentConfig.l1_date;
+            document.getElementById('config-l1-title').value = currentConfig.l1_title;
+            document.getElementById('config-l1-desc').value = currentConfig.l1_desc;
+            document.getElementById('config-l1-img-select').value = currentConfig.l1_img_type || 'default';
+            document.getElementById('config-l1-img-url').value = currentConfig.l1_img_url || '';
+            toggleCustomImage('l1');
+
+            document.getElementById('config-quiz-q').value = currentConfig.quiz_q;
+            document.getElementById('config-quiz-opt0').value = currentConfig.quiz_opts[0];
+            document.getElementById('config-quiz-opt1').value = currentConfig.quiz_opts[1];
+            document.getElementById('config-quiz-opt2').value = currentConfig.quiz_opts[2];
+            document.getElementById(`ans${currentConfig.quiz_ans}`).checked = true;
+            document.getElementById('config-quiz-hint').value = currentConfig.quiz_hint;
+
+            document.getElementById('config-l3-date').value = currentConfig.l3_date;
+            document.getElementById('config-l3-title').value = currentConfig.l3_title;
+            document.getElementById('config-l3-desc').value = currentConfig.l3_desc;
+            document.getElementById('config-l3-img-select').value = currentConfig.l3_img_type || 'default';
+            document.getElementById('config-l3-img-url').value = currentConfig.l3_img_url || '';
+            toggleCustomImage('l3');
+
+            document.getElementById('config-l4-title').value = currentConfig.l4_title;
+            document.getElementById('config-l4-desc').value = currentConfig.l4_desc;
+            document.getElementById('config-l4-img-select').value = currentConfig.l4_img_type || 'default';
+            document.getElementById('config-l4-img-url').value = currentConfig.l4_img_url || '';
+            toggleCustomImage('l4');
+
+            document.getElementById('config-prop-heading').value = currentConfig.prop_heading;
+            document.getElementById('config-prop-text').value = currentConfig.prop_text;
+            document.getElementById('config-prop-yes').value = currentConfig.prop_yes;
+            document.getElementById('config-prop-no').value = currentConfig.prop_no;
+        }
+
+        function previewConfig() {
+            currentConfig.theme = currentActiveTheme;
+            currentConfig.name = document.getElementById('config-name').value;
+            currentConfig.prologue_text = document.getElementById('config-prologue').value;
+            currentConfig.notification_email = document.getElementById('config-email').value;
+            
+            currentConfig.l1_date = document.getElementById('config-l1-date').value;
+            currentConfig.l1_title = document.getElementById('config-l1-title').value;
+            currentConfig.l1_desc = document.getElementById('config-l1-desc').value;
+            currentConfig.l1_img_type = document.getElementById('config-l1-img-select').value;
+            currentConfig.l1_img_url = document.getElementById('config-l1-img-url').value;
+
+            currentConfig.quiz_q = document.getElementById('config-quiz-q').value;
+            currentConfig.quiz_opts = [
+                document.getElementById('config-quiz-opt0').value,
+                document.getElementById('config-quiz-opt1').value,
+                document.getElementById('config-quiz-opt2').value
+            ];
+            
+            const radioNode = document.getElementsByName('correct-ans');
+            for (let i = 0; i < radioNode.length; i++) {
+                if (radioNode[i].checked) {
+                    currentConfig.quiz_ans = parseInt(radioNode[i].value);
+                    break;
+                }
+            }
+            currentConfig.quiz_hint = document.getElementById('config-quiz-hint').value;
+
+            currentConfig.l3_date = document.getElementById('config-l3-date').value;
+            currentConfig.l3_title = document.getElementById('config-l3-title').value;
+            currentConfig.l3_desc = document.getElementById('config-l3-desc').value;
+            currentConfig.l3_img_type = document.getElementById('config-l3-img-select').value;
+            currentConfig.l3_img_url = document.getElementById('config-l3-img-url').value;
+
+            currentConfig.l4_title = document.getElementById('config-l4-title').value;
+            currentConfig.l4_desc = document.getElementById('config-l4-desc').value;
+            currentConfig.l4_img_type = document.getElementById('config-l4-img-select').value;
+            currentConfig.l4_img_url = document.getElementById('config-l4-img-url').value;
+
+            currentConfig.prop_heading = document.getElementById('config-prop-heading').value;
+            currentConfig.prop_text = document.getElementById('config-prop-text').value;
+            currentConfig.prop_yes = document.getElementById('config-prop-yes').value;
+            currentConfig.prop_no = document.getElementById('config-prop-no').value;
+
+            applyConfigToDOM();
+            toggleSettings(false);
+        }
+
+        // Export config as a base64 encoded URL hash
+        function copyShareableLink() {
+            previewConfig(); // Save active edits to config object first
+            
+            try {
+                const jsonStr = JSON.stringify(currentConfig);
+                const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+                
+                // Get URL without hash
+                const baseUrl = window.location.href.split('#')[0];
+                const shareableUrl = `${baseUrl}#q=${base64}`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(shareableUrl).then(() => {
+                    showShareSuccessNotification();
+                }).catch(() => {
+                    // Fallback input text copy if navigator clipboard blocks
+                    const footer = document.querySelector('.settings-drawer div:last-child');
+                    const fallbackInput = document.createElement('input');
+                    fallbackInput.value = shareableUrl;
+                    fallbackInput.className = 'w-full text-xs p-2 mt-2 bg-white/60 dark:bg-slate-800 text-on-surface rounded-lg border border-black/10';
+                    fallbackInput.select();
+                    document.execCommand('copy');
+                    showShareSuccessNotification();
+                    footer.appendChild(fallbackInput);
+                });
+            } catch (err) {
+                console.error("Failed to generate link:", err);
+            }
+        }
+
+        function showShareSuccessNotification() {
+            const btn = document.getElementById('btn-share');
+            const icon = document.getElementById('btn-share-icon');
+            const text = document.getElementById('btn-share-text');
+            
+            icon.innerText = 'check';
+            text.innerText = 'Link Copied! 💖';
+            btn.classList.remove('bg-secondary');
+            btn.classList.add('bg-green-600');
+            
+            setTimeout(() => {
+                icon.innerText = 'link';
+                text.innerText = 'Copy Shareable Link';
+                btn.classList.add('bg-secondary');
+                btn.classList.remove('bg-green-600');
+            }, 3000);
+        }
+
+        function resetConfig() {
+            if (confirm("Are you sure you want to reset all custom fields to default?")) {
+                currentConfig = { ...DEFAULT_CONFIG };
+                applyConfigToDOM();
+                loadFormFromConfig();
+                toggleSettings(false);
+            }
+        }
+
+        // Check hash on window loading for configuration payload
+        function checkURLHash() {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#q=')) {
+                try {
+                    const base64Payload = hash.substring(3);
+                    const jsonStr = decodeURIComponent(escape(atob(base64Payload)));
+                    const config = JSON.parse(jsonStr);
+                    
+                    // Merge with defaults in case versioning changes
+                    currentConfig = { ...DEFAULT_CONFIG, ...config };
+                    applyConfigToDOM();
+                    return;
+                } catch (e) {
+                    console.error("Error decoding hash configuration: ", e);
+                }
+            }
+            applyConfigToDOM();
+        }
+
+
+        // General utilities
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.onload = () => {
+            initShader();
+            checkURLHash();
+        };
+
+        // Listen for back button or manual hash changes
+        window.onhashchange = checkURLHash;
+    </script>
+</body>
+</html>
